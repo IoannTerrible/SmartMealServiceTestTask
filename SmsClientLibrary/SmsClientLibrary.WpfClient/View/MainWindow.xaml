@@ -1,0 +1,185 @@
+﻿<Window x:Class="SmsClientLibrary.WpfClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:local="clr-namespace:SmsClientLibrary.WpfClient"
+        xmlns:viewModels="clr-namespace:SmsClientLibrary.WpfClient.ViewModels"
+
+        mc:Ignorable="d"
+        
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
+        Width="800" Height="450">
+
+    <Window.DataContext>
+        <viewModels:MainViewModel />
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <Style x:Key="TitleBarButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EEE"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#CCC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EEE"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#CCC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Border Background="White"
+            CornerRadius="16"
+            BorderBrush="#555"
+            BorderThickness="1"
+            SnapsToDevicePixels="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Background="White"
+                    CornerRadius="16,16,0,0"
+                    MouseLeftButtonDown="TitleBar_MouseDown">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="Тестовое WPF‑приложение для SmartMealService"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0"
+                               FontWeight="SemiBold"/>
+                    
+                    <Button Grid.Column="1"
+                            Style="{StaticResource IconButtonStyle}"
+                            Click="Minimize_Click"
+                            ToolTip="Minimize">
+                             <Image Source="pack://application:,,,/Assets/Icons/minimize.png"
+                                    Width="16" Height="16"/>
+                    </Button>
+
+                    <Button Grid.Column="2"
+                            Style="{StaticResource IconButtonStyle}"
+                            Click="MaximizeRestore_Click"
+                            ToolTip="Maximize / Restore">
+                            <Image Source="pack://application:,,,/Assets/Icons/maximize.png"
+                                   Width="16" Height="16"/>
+                    </Button>
+
+                    <Button Grid.Column="3"
+                            Style="{StaticResource IconButtonStyle}"
+                            Click="Close_Click"
+                            ToolTip="Close">
+                            <Image Source="pack://application:,,,/Assets/Icons/close.png"
+                                   Width="16" Height="16"/>
+                    </Button>
+                    
+                </Grid>
+            </Border>
+
+            <DataGrid Grid.Row="1"
+                      ItemsSource="{Binding Variables}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      Margin="10"
+                      HeadersVisibility="Column"
+                      RowHeaderWidth="0"
+                      HorizontalGridLinesBrush="#DDD"
+                      VerticalGridLinesBrush="#DDD">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Поле"
+                                        Binding="{Binding Name}"
+                                        IsReadOnly="True"
+                                        Width="2*"/>
+                    
+                    <DataGridTextColumn Header="Значение"
+                                        Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="3*"/>
+                    
+                    <DataGridTextColumn Header="Комментарий"
+                                        Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="3*"/>
+                    
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="10"
+                        VerticalAlignment="Center">
+
+                <ProgressBar Width="100"
+                             Height="30"
+                             Margin="5"
+                             IsIndeterminate="True"
+                             Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"/>
+
+                <Button Content="Save All"
+                        Width="100"
+                        Height="30"
+                        Command="{Binding SaveCommand}"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBool}}"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>

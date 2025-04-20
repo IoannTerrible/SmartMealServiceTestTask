@@ -1,0 +1,14 @@
+﻿<Application x:Class="SmsClientLibrary.WpfClient.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SmsClientLibrary.WpfClient"
+             
+             xmlns:conv="clr-namespace:SmsClientLibrary.WpfClient.Converters"
+             
+             StartupUri="View/MainWindow.xaml">
+    <Application.Resources>
+        <conv:InverseBooleanConverter x:Key="InverseBool"/>
+        
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Application.Resources>
+</Application>
